@@ -43,9 +43,13 @@
 <script>
     const apiUrl = 'https://script.google.com/macros/s/AKfycbyorSR62vziIWJCBXUBdTEWdZsiyeaFK2iaGsjPkTwKjaUADPs/exec';
     const path = decodeURI(location.pathname);
+    let count = localStorage.getItem(path) ? localStorage.getItem(path) : 0;
     pagePath.innerText = path;
+    pageCounter.innerText = count;
+
     fetch(apiUrl + '?url=' + path, {mode: 'cors'})
-        .then(response => response.json()).then(data => pageCounter.innerText = data.count);
+        .then(response => response.json()).then(data => pageCounter.innerText = count = data.count);
+
     collect.addEventListener('click', () => localStorage.getItem(path) ?
         alert('Вы уже кликнули на этой странице, попробуйте кликнуть на другой') :
         (localStorage.setItem(path, true) || fetch(apiUrl + '?collect=true&url=' + path, {mode: 'cors'})
