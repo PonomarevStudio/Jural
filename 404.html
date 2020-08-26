@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Юраль — Тест авторизации счетчика визитов</title>
+    <style>
+        * {
+            font-family: Helvetica, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<h1>Авторизация через VK</h1>
+<script type="text/javascript" src="https://vk.com/js/api/openapi.js?168"></script>
+<script type="text/javascript">
+    VK.init({apiId: 7578516});
+</script>
+
+<!-- VK Widget -->
+<div id="vk_auth"></div>
+<script type="text/javascript">
+    VK.Widgets.Auth("vk_auth", {"authUrl": "/"});
+</script>
+
+<h1>Счетчик текущей страницы</h1>
+<p>Страница: <span id="pagePath" style="font-weight: bold;margin-left: 2rem;"></span></p>
+<p>Клики: <span id="pageCounter"></span></p>
+<button id="collect">Кликнуть</button>
+
+<script>
+    const apiUrl = 'https://script.google.com/macros/s/AKfycbyorSR62vziIWJCBXUBdTEWdZsiyeaFK2iaGsjPkTwKjaUADPs/exec';
+    pagePath.innerText = location.pathname;
+    fetch(apiUrl + '?url=' + location.pathname, {mode: 'cors'})
+        .then(response = response.json()).then(data => pageCounter.innerText = data.count);
+    collect.addEventListener('click', () => fetch(apiUrl + '?collect=true&url=' + location.pathname, {mode: 'cors'})
+        .then(response = response.json()).then(data => pageCounter.innerText = data.count))
+</script>
+</body>
+</html>
