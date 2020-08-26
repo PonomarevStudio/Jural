@@ -52,8 +52,8 @@
 
     collect.addEventListener('click', () => localStorage.getItem(path) ?
         alert('Вы уже кликнули на этой странице, попробуйте кликнуть на другой') :
-        (localStorage.setItem(path, true) || fetch(apiUrl + '?collect=true&url=' + path, {mode: 'cors'})
-            .then(response => response.json()).then(data => pageCounter.innerText = data.count)))
+        fetch(apiUrl + '?collect=true&url=' + path, {mode: 'cors'}).then(response => response.json())
+            .then(data => localStorage.setItem(path, data.count) || (pageCounter.innerText = count = data.count)))
 </script>
 </body>
 </html>
