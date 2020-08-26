@@ -42,12 +42,13 @@
 
 <script defer>
     const apiUrl = 'https://script.google.com/macros/s/AKfycbyorSR62vziIWJCBXUBdTEWdZsiyeaFK2iaGsjPkTwKjaUADPs/exec';
-    pagePath.innerText = location.pathname;
-    fetch(apiUrl + '?url=' + location.pathname, {mode: 'cors'})
+    const path = decodeURI(location.pathname);
+    pagePath.innerText = path;
+    fetch(apiUrl + '?url=' + path, {mode: 'cors'})
         .then(response => response.json()).then(data => pageCounter.innerText = data.count);
-    collect.addEventListener('click', () => localStorage.getItem(location.pathname) ?
+    collect.addEventListener('click', () => localStorage.getItem(path) ?
         alert('Вы уже кликнули на этой странице, попробуйте кликнуть на другой') :
-        (localStorage.setItem(location.pathname, true) || fetch(apiUrl + '?collect=true&url=' + location.pathname, {mode: 'cors'})
+        (localStorage.setItem(path, true) || fetch(apiUrl + '?collect=true&url=' + path, {mode: 'cors'})
             .then(response => response.json()).then(data => pageCounter.innerText = data.count)))
 </script>
 </body>
