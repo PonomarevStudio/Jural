@@ -40,8 +40,8 @@
         .then(response => response.json()).then(data => pageCounter.innerText = data.count);
     collect.addEventListener('click', () => localStorage.getItem(location.pathname) ?
         alert('Вы уже кликнули на этой странице, попробуйте кликнуть на другой') :
-        fetch(apiUrl + '?collect=true&url=' + location.pathname, {mode: 'cors'})
-            .then(response => response.json()).then(data => pageCounter.innerText = data.count))
+        (localStorage.setItem(location.pathname, true) || fetch(apiUrl + '?collect=true&url=' + location.pathname, {mode: 'cors'})
+            .then(response => response.json()).then(data => pageCounter.innerText = data.count)))
 </script>
 </body>
 </html>
